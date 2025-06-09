@@ -82,7 +82,6 @@ Get channel administrators (limited by Telegram API).
 2. Get your bot token
 3. Add your bot to channels with appropriate permissions
 4. Use channel usernames (e.g., @mychannel) or chat IDs for interactions
-```
 
 To install the required dependencies, run:
 
