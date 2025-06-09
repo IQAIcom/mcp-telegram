@@ -1,5 +1,5 @@
 {
-	"name": "@iqai/telegram",
+	"name": "@iqai/mcp-telegram",
 	"version": "0.0.1",
 	"description": "A starter template for building MCP servers with FastMCP and TypeScript.",
 	"main": "dist/index.js",
