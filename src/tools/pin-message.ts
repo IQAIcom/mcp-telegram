@@ -23,9 +23,6 @@ export const pinMessageTool = {
 			const success = await telegramService.pinMessage(
 				params.chatId,
 				params.messageId,
-				{
-					disableNotification: params.disableNotification,
-				},
 			);
 
 			if (success) {

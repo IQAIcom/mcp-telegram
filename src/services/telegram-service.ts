@@ -1,4 +1,4 @@
-import { Context, Telegraf } from "telegraf";
+import { Telegraf } from "telegraf";
 
 export interface ChannelInfo {
 	id: number;
@@ -72,9 +72,6 @@ export class TelegramService {
 		fromChatId: string | number,
 		toChatId: string | number,
 		messageId: number,
-		options?: {
-			disableNotification?: boolean;
-		},
 	): Promise<MessageInfo> {
 		try {
 			const message = await this.bot.telegram.forwardMessage(
@@ -98,14 +95,9 @@ export class TelegramService {
 	async pinMessage(
 		chatId: string | number,
 		messageId: number,
-		options?: {
-			disableNotification?: boolean;
-		},
 	): Promise<boolean> {
 		try {
-			await this.bot.telegram.pinChatMessage(chatId, messageId, {
-				disable_notification: options?.disableNotification,
-			});
+			await this.bot.telegram.pinChatMessage(chatId, messageId);
 			return true;
 		} catch (error) {
 			throw new Error(

@@ -30,9 +30,6 @@ export const forwardMessageTool = {
 				params.fromChatId,
 				params.toChatId,
 				params.messageId,
-				{
-					disableNotification: params.disableNotification,
-				},
 			);
 
 			return dedent`
