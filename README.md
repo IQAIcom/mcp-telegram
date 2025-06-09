@@ -13,7 +13,6 @@ An MCP (Model Context Protocol) server for interacting with Telegram bots and ch
 ## Setup
 
 1. Install dependencies:
-```
 
 ```bash
 npm install
