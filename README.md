@@ -43,7 +43,9 @@ The server communicates over stdio and can be used with any MCP-compatible clien
 ### Available Tools
 
 #### SEND_MESSAGE
+
 Send a message to a Telegram chat or channel.
+
 - `chatId`: Chat ID or username (e.g., @channelname or -1001234567890)
 - `text`: Message text
 - `parseMode`: Optional formatting (HTML, Markdown, MarkdownV2)
@@ -51,26 +53,95 @@ Send a message to a Telegram chat or channel.
 - `disableNotification`: Optional boolean for silent messages
 
 #### GET_CHANNEL_INFO
+
 Get information about a channel or chat.
+
 - `channelId`: Channel ID or username
 
 #### FORWARD_MESSAGE
+
 Forward a message from one chat to another.
+
 - `fromChatId`: Source chat ID
 - `toChatId`: Destination chat ID
 - `messageId`: Message ID to forward
 - `disableNotification`: Optional boolean for silent forwarding
 
 #### PIN_MESSAGE
+
 Pin a message in a chat or channel.
+
 - `chatId`: Chat ID or username
 - `messageId`: Message ID to pin
 - `disableNotification`: Optional boolean for silent pinning
 
 #### GET_CHANNEL_MEMBERS
+
 Get channel administrators (limited by Telegram API).
+
 - `channelId`: Channel ID or username
 - `limit`: Maximum number of members to retrieve (1-50, default: 10)
+
+## Usage Examples
+
+### SEND_MESSAGE
+
+Send a message to a Telegram channel:
+
+```json
+{
+  "tool_name": "SEND_MESSAGE",
+  "arguments": {
+    "chatId": "@mychannel",
+    "text": "Hello from the Telegram MCP Server!"
+  }
+}
+```
+
+### GET_CHANNEL_INFO
+
+Get information about a Telegram channel:
+
+```json
+{
+  "tool_name": "GET_CHANNEL_INFO",
+  "arguments": {
+    "channelId": "@mychannel"
+  }
+}
+```
+
+## Response Examples
+
+### SEND_MESSAGE
+
+Successful response:
+
+```json
+{
+  "success": true,
+  "result": "Message sent successfully!\n\nMessage ID: 123\nChat ID: @mychannel\nSent at: 2024-03-15T12:34:56.789Z\nText: Hello from the Telegram MCP Server!"
+}
+```
+
+### GET_CHANNEL_INFO
+
+Successful response:
+
+```json
+{
+  "success": true,
+  "result": "Channel Information:\n\nTitle: My Channel\nID: -1001234567890\nType: channel\nUsername: mychannel\nDescription: This is my Telegram channel.\nMember Count: 1234"
+}
+```
+
+## Error Handling
+
+The tools will return an error message in the `result` field if an error occurs. Common errors include:
+
+- **Missing bot token:** Ensure the `TELEGRAM_BOT_TOKEN` environment variable is set.
+- **Invalid chat ID:** Double-check the chat ID or username.
+- **Bot not in channel:** Add the bot to the channel with appropriate permissions.
 
 ## Environment Variables
 
