@@ -1,4 +1,4 @@
-import type { FastMCP, FastMCPSession } from "fastmcp";
+import type { FastMCP, FastMCPSession, TextContent } from "fastmcp";
 import { Telegraf } from "telegraf";
 import type { Context } from "telegraf";
 import { message } from "telegraf/filters";
@@ -111,21 +111,16 @@ export class SamplingHandler {
 				],
 				maxTokens: 1000,
 			});
-
 			// Extract the response text
-			let responseText = "I'm sorry, I couldn't generate a response.";
+			let responseText: string;
 
 			if (
 				samplingResponse.content &&
-				Array.isArray(samplingResponse.content) &&
-				samplingResponse.content.length > 0
+				samplingResponse.content.type === "text"
 			) {
-				const textContent = samplingResponse.content.find(
-					(c) => c.type === "text",
-				);
-				if (textContent && "text" in textContent) {
-					responseText = textContent.text;
-				}
+				responseText = (samplingResponse.content as TextContent).text;
+			} else {
+				responseText = "I'm sorry, I couldn't generate a response.";
 			}
 
 			// Send response back to Telegram using the service
