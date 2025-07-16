@@ -1,11 +1,11 @@
 #!/usr/bin/env node
 import { FastMCP, type FastMCPSession } from "fastmcp";
+import { SamplingHandler } from "./sampling.js";
 import { forwardMessageTool } from "./tools/forward-message.js";
 import { getChannelInfoTool } from "./tools/get-channel-info.js";
 import { getChannelMembersTool } from "./tools/get-channel-members.js";
 import { pinMessageTool } from "./tools/pin-message.js";
 import { sendMessageTool } from "./tools/send-message.js";
-import { SamplingHandler } from "./sampling.js";
 
 // =============================================================================
 // CONSTANTS
