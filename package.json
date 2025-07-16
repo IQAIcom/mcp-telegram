@@ -1,13 +1,15 @@
 {
 	"name": "@iqai/mcp-telegram",
-	"version": "0.1.0",
+	"version": "0.1.1",
 	"description": "A MCP server for Telegram.",
 	"main": "dist/index.js",
 	"type": "module",
 	"bin": {
 		"mcp-telegram": "dist/index.js"
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"build": "tsc && shx chmod +x dist/index.js",
 		"prepare": "husky",
