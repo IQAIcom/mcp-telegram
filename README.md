@@ -9,6 +9,7 @@ An MCP (Model Context Protocol) server for interacting with Telegram bots and ch
 - **FORWARD_MESSAGE**: Forward messages between chats
 - **PIN_MESSAGE**: Pin messages in channels
 - **GET_CHANNEL_MEMBERS**: Get list of channel administrators
+- **AI SAMPLING**: Automatic AI-powered responses to Telegram messages using FastMCP sampling
 
 ## Setup
 
@@ -81,6 +82,47 @@ Get channel administrators (limited by Telegram API).
 
 - `channelId`: Channel ID or username
 - `limit`: Maximum number of members to retrieve (1-50, default: 10)
+
+## AI Sampling Feature
+
+The server includes an AI sampling feature that automatically responds to Telegram messages using FastMCP's sampling capability. When a client connects to the MCP server, a Telegram bot is started that listens for incoming messages and generates AI-powered responses.
+
+### How It Works
+
+1. **Client Connection**: When an MCP client connects to the server, the Telegram bot starts automatically
+2. **Message Processing**: The bot listens for text messages in any chat where it's present
+3. **AI Response**: Each message is sent to the AI using FastMCP's sampling feature
+4. **Response Delivery**: The AI-generated response is sent back to the same chat
+
+### Bot Commands
+
+- `/start`: Initialize the bot and get a welcome message
+- `/help`: Get help information about the bot's capabilities
+
+### Usage
+
+1. Add your bot to a Telegram chat or channel
+2. Start the MCP server with a connected client
+3. Send any message to the bot in Telegram
+4. The bot will respond with an AI-generated message
+
+### Example Interaction
+
+```
+User: Hello, how are you?
+Bot: Hello! I'm doing well, thank you for asking. I'm here to help you with any questions or tasks you might have. How can I assist you today?
+
+User: What's the weather like?
+Bot: I don't have access to real-time weather information, but I'd be happy to help you find weather resources or discuss weather-related topics. You might want to check a weather app or website for current conditions in your area.
+```
+
+### Configuration
+
+The AI sampling feature uses the same `TELEGRAM_BOT_TOKEN` environment variable as the other tools. The AI responses are generated with:
+
+- **System Prompt**: "You are a helpful AI assistant responding to messages in a Telegram chat. Be concise and helpful."
+- **Max Tokens**: 1000
+- **Context**: Includes the current server context for better responses
 
 ## Usage Examples
 
