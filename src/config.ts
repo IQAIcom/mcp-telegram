@@ -6,7 +6,7 @@ config();
 
 const envSchema = z.object({
 	// Required
-	TELEGRAM_BOT_TOKEN: z.string(),
+	TELEGRAM_BOT_TOKEN: z.string().min(1, "TELEGRAM_BOT_TOKEN environment variable must be set"),
 
 	// Sampling control
 	SAMPLING_ENABLED: z.coerce.boolean().default(true),
