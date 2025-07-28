@@ -4,9 +4,46 @@ import { MessageType, TemplateType } from "./sampling/types.js";
 
 config();
 
+// Helper functions for parsing environment variables
+function parseCommaSeparatedChatIds(val: string): (number | string)[] {
+	if (!val) return [];
+
+	return val
+		.split(",")
+		.map((id) => id.trim())
+		.filter((id) => id.length > 0)
+		.map((id) => {
+			// Handle numeric IDs
+			const numId = Number.parseInt(id);
+			if (!Number.isNaN(numId)) return numId;
+			// Handle username strings (normalize to include @)
+			return id.startsWith("@") ? id : `@${id}`;
+		});
+}
+
+function parseCommaSeparatedUserIds(val: string): number[] {
+	if (!val) return [];
+
+	return val
+		.split(",")
+		.map((id) => Number.parseInt(id.trim()))
+		.filter((id) => !Number.isNaN(id));
+}
+
+function parseCommaSeparatedStrings(val: string): string[] {
+	if (!val) return [];
+
+	return val
+		.split(",")
+		.map((item) => item.trim())
+		.filter((item) => item.length > 0);
+}
+
 const envSchema = z.object({
 	// Required
-	TELEGRAM_BOT_TOKEN: z.string().min(1, "TELEGRAM_BOT_TOKEN environment variable must be set"),
+	TELEGRAM_BOT_TOKEN: z
+		.string()
+		.min(1, "TELEGRAM_BOT_TOKEN environment variable must be set"),
 
 	// Sampling control
 	SAMPLING_ENABLED: z.coerce.boolean().default(true),
@@ -19,72 +56,23 @@ const envSchema = z.object({
 	SAMPLING_ALLOWED_CHATS: z
 		.string()
 		.default("")
-		.transform((val) =>
-			val
-				? val
-						.split(",")
-						.map((id) => id.trim())
-						.filter((id) => id.length > 0)
-						.map((id) => {
-							// Handle numeric IDs
-							const numId = Number.parseInt(id);
-							if (!Number.isNaN(numId)) return numId;
-							// Handle username strings (normalize to include @)
-							return id.startsWith("@") ? id : `@${id}`;
-						})
-				: [],
-		),
+		.transform(parseCommaSeparatedChatIds),
 	SAMPLING_BLOCKED_CHATS: z
 		.string()
 		.default("")
-		.transform((val) =>
-			val
-				? val
-						.split(",")
-						.map((id) => id.trim())
-						.filter((id) => id.length > 0)
-						.map((id) => {
-							// Handle numeric IDs
-							const numId = Number.parseInt(id);
-							if (!Number.isNaN(numId)) return numId;
-							// Handle username strings (normalize to include @)
-							return id.startsWith("@") ? id : `@${id}`;
-						})
-				: [],
-		),
+		.transform(parseCommaSeparatedChatIds),
 	SAMPLING_ALLOWED_USERS: z
 		.string()
 		.default("")
-		.transform((val) =>
-			val
-				? val
-						.split(",")
-						.map((id) => Number.parseInt(id.trim()))
-						.filter((id) => !Number.isNaN(id))
-				: [],
-		),
+		.transform(parseCommaSeparatedUserIds),
 	SAMPLING_BLOCKED_USERS: z
 		.string()
 		.default("")
-		.transform((val) =>
-			val
-				? val
-						.split(",")
-						.map((id) => Number.parseInt(id.trim()))
-						.filter((id) => !Number.isNaN(id))
-				: [],
-		),
+		.transform(parseCommaSeparatedUserIds),
 	SAMPLING_ADMIN_USERS: z
 		.string()
 		.default("")
-		.transform((val) =>
-			val
-				? val
-						.split(",")
-						.map((id) => Number.parseInt(id.trim()))
-						.filter((id) => !Number.isNaN(id))
-				: [],
-		),
+		.transform(parseCommaSeparatedUserIds),
 
 	// Message type handlers
 	SAMPLING_ENABLE_TEXT: z.coerce.boolean().default(true),
@@ -112,14 +100,7 @@ const envSchema = z.object({
 	SAMPLING_KEYWORD_TRIGGERS: z
 		.string()
 		.default("")
-		.transform((val) =>
-			val
-				? val
-						.split(",")
-						.map((keyword) => keyword.trim())
-						.filter((keyword) => keyword.length > 0)
-				: [],
-		),
+		.transform(parseCommaSeparatedStrings),
 	SAMPLING_IGNORE_COMMANDS: z.coerce.boolean().default(true),
 });
 
