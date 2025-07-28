@@ -16,6 +16,8 @@ import {
 	handleVideoMessage,
 	handleStickerMessage,
 	handleLocationMessage,
+	handleContactMessage,
+	handlePollMessage,
 } from "./message-handlers.js";
 
 export class SamplingHandler {
@@ -114,6 +116,16 @@ export class SamplingHandler {
 				MessageType.LOCATION,
 				handleLocationMessage,
 			);
+		});
+
+		// Contact messages
+		this.bot.on(message("contact"), async (ctx: Context) => {
+			await this.processMessage(ctx, MessageType.CONTACT, handleContactMessage);
+		});
+
+		// Poll messages
+		this.bot.on(message("poll"), async (ctx: Context) => {
+			await this.processMessage(ctx, MessageType.POLL, handlePollMessage);
 		});
 	}
 
