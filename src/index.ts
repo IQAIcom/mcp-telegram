@@ -1,11 +1,12 @@
 #!/usr/bin/env node
 import { FastMCP, type FastMCPSession } from "fastmcp";
-import { SamplingHandler } from "./sampling.js";
 import { forwardMessageTool } from "./tools/forward-message.js";
 import { getChannelInfoTool } from "./tools/get-channel-info.js";
 import { getChannelMembersTool } from "./tools/get-channel-members.js";
 import { pinMessageTool } from "./tools/pin-message.js";
 import { sendMessageTool } from "./tools/send-message.js";
+import { SamplingHandler } from "./sampling/handler.js";
+import { samplingConfig } from "./config.js";
 
 // =============================================================================
 // CONSTANTS
@@ -43,18 +44,22 @@ function setupSessionEventHandlers(server: FastMCP): SamplingHandler | null {
 	server.on("connect", (event) => {
 		console.log("🔌 Client connected:", event.session);
 
-		if (!samplingHandler) {
-			initializeSamplingHandler(event.session)
-				.then((handler) => {
-					samplingHandler = handler;
-					console.log("✅ Telegram sampling handler initialized");
-				})
-				.catch((error) => {
-					console.error("❌ Failed to initialize sampling handler:", error);
-				});
+		if (samplingConfig.enabled) {
+			if (!samplingHandler) {
+				initializeSamplingHandler(event.session)
+					.then((handler) => {
+						samplingHandler = handler;
+						console.log("✅ Telegram sampling handler initialized");
+					})
+					.catch((error) => {
+						console.error("❌ Failed to initialize sampling handler:", error);
+					});
+			} else {
+				samplingHandler.updateSession(event.session);
+				console.log("🔄 Session updated for existing sampling handler");
+			}
 		} else {
-			samplingHandler.updateSession(event.session);
-			console.log("🔄 Session updated for existing sampling handler");
+			console.log("ℹ️  Sampling is disabled via SAMPLING_ENABLED=false");
 		}
 	});
 
@@ -82,13 +87,17 @@ function setupGracefulShutdown(samplingHandler: SamplingHandler | null): void {
 			`\n🛑 Received ${signal}, shutting down Telegram MCP Server...`,
 		);
 
-		if (samplingHandler) {
+		if (samplingHandler && samplingConfig.enabled) {
 			try {
 				await samplingHandler.stop();
 				console.log("✅ Telegram bot stopped gracefully");
 			} catch (error) {
 				console.error("❌ Error stopping Telegram bot:", error);
 			}
+		} else if (samplingConfig.enabled) {
+			console.log("ℹ️  No Telegram bot to stop (not initialized yet)");
+		} else {
+			console.log("ℹ️  No Telegram bot to stop (sampling was disabled)");
 		}
 
 		process.exit(0);
@@ -102,10 +111,16 @@ function logStartupInfo(): void {
 	console.log("✅ Telegram MCP Server started successfully over stdio");
 	console.log("📡 Ready to accept MCP client connections");
 	console.log(`🛠️  Available tools: ${AVAILABLE_TOOLS.join(", ")}`);
-	console.log(
-		"🤖 Telegram bot will start when first client connects for AI sampling",
-	);
-	console.log("💡 Make sure TELEGRAM_BOT_TOKEN environment variable is set");
+
+	if (samplingConfig.enabled) {
+		console.log(
+			"🤖 Telegram bot will start when first client connects for AI sampling",
+		);
+		console.log("💡 Make sure TELEGRAM_BOT_TOKEN environment variable is set");
+	} else {
+		console.log("⚠️  AI sampling is disabled (SAMPLING_ENABLED=false)");
+		console.log("💡 Only core MCP tools will be available");
+	}
 }
 
 // =============================================================================
