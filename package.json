@@ -7,7 +7,9 @@
 	"bin": {
 		"mcp-telegram": "dist/index.js"
 	},
-	"files": ["dist"],
+	"files": [
+		"dist"
+	],
 	"scripts": {
 		"build": "tsc && shx chmod +x dist/index.js",
 		"prepare": "husky",
@@ -22,6 +24,7 @@
 	},
 	"dependencies": {
 		"dedent": "^1.6.0",
+		"dotenv": "^17.2.1",
 		"fastmcp": "^3.9.0",
 		"telegraf": "^4.16.3",
 		"zod": "^3.25.7"
