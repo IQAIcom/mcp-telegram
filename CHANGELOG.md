@@ -1,5 +1,11 @@
 # @iqai/mcp-telegram
 
+## 0.1.2
+
+### Patch Changes
+
+- 4d73a03: - Adds more sampling listeners, more env config options
+
 ## 0.1.1
 
 ### Patch Changes
