@@ -22,12 +22,13 @@
 	},
 	"dependencies": {
 		"dedent": "^1.6.0",
+		"dotenv": "^17.2.1",
 		"fastmcp": "^3.9.0",
 		"telegraf": "^4.16.3",
 		"zod": "^3.25.7"
 	},
 	"devDependencies": {
-		"@biomejs/biome": "*",
+		"@biomejs/biome": "^1.9.4",
 		"@changesets/cli": "^2.29.4",
 		"@types/node": "^22.15.19",
 		"husky": "^9.0.0",
