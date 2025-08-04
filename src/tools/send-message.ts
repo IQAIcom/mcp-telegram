@@ -9,6 +9,10 @@ const sendMessageParams = z.object({
 			"The chat ID or channel username (e.g., @channelname or -1001234567890)",
 		),
 	text: z.string().min(1).describe("The message text to send"),
+	topicId: z
+		.number()
+		.optional()
+		.describe("The topic ID for forum channels (optional)"),
 });
 
 type SendMessageParams = z.infer<typeof sendMessageParams>;
@@ -24,6 +28,7 @@ export const sendMessageTool = {
 			const messageInfo = await telegramService.sendMessage(
 				params.chatId,
 				params.text,
+				params.topicId,
 			);
 
 			return dedent`

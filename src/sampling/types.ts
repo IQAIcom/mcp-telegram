@@ -52,6 +52,7 @@ export interface MessageTemplateData {
 	chatId: number;
 	isDM: boolean;
 	messageId: number;
+	topicId?: number;
 	messageType?: string;
 	caption?: string;
 	photoInfo?: string;

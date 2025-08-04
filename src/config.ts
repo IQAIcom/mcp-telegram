@@ -157,6 +157,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: ${MessageType.TEXT}
 content: {content}`,
 
@@ -165,6 +166,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: ${MessageType.PHOTO}
 caption: {caption}
 photo_info: {photoInfo}`,
@@ -174,6 +176,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: ${MessageType.DOCUMENT}
 filename: {fileName}
 mime_type: {mimeType}
@@ -184,6 +187,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: ${MessageType.VOICE}
 duration: {duration}s`,
 
@@ -192,6 +196,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: ${MessageType.VIDEO}
 caption: {caption}
 duration: {duration}s`,
@@ -201,6 +206,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: ${MessageType.STICKER}
 emoji: {stickerEmoji}
 set_name: {stickerSetName}`,
@@ -210,6 +216,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: ${MessageType.LOCATION}
 latitude: {latitude}
 longitude: {longitude}`,
@@ -219,6 +226,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: ${MessageType.CONTACT}
 contact_name: {contactName}
 phone_number: {phoneNumber}`,
@@ -228,6 +236,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: ${MessageType.POLL}
 question: {pollQuestion}
 options: {pollOptions}`,
@@ -237,6 +246,7 @@ user_id: {userId}
 chat_id: {chatId}
 isDM: {isDM}
 message_id: {messageId}
+topic_id: {topicId}
 message_type: {messageType}
 content: {content}`,
 	},

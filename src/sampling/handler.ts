@@ -171,6 +171,7 @@ export class SamplingHandler {
 					await this.telegramService.sendMessage(
 						request.chatId,
 						"Sorry, the AI service is not available right now.",
+						request.templateData.topicId,
 					);
 				}
 				return;
@@ -212,7 +213,11 @@ export class SamplingHandler {
 
 			// Send response back to Telegram (unless in silent mode)
 			if (!samplingConfig.silentMode) {
-				await this.telegramService.sendMessage(request.chatId, responseText);
+				await this.telegramService.sendMessage(
+					request.chatId,
+					responseText,
+					request.templateData.topicId,
+				);
 			}
 
 			console.log(
@@ -225,6 +230,7 @@ export class SamplingHandler {
 				await this.telegramService.sendMessage(
 					request.chatId,
 					"Sorry, I encountered an error while processing your request. Please try again.",
+					request.templateData.topicId,
 				);
 			}
 		}
