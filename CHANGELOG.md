@@ -1,5 +1,11 @@
 # @iqai/mcp-telegram
 
+## 0.1.3
+
+### Patch Changes
+
+- 90dc661: Added support for messaging on topic channels of forum type groups
+
 ## 0.1.2
 
 ### Patch Changes
