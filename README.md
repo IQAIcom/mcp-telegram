@@ -59,6 +59,7 @@ Send a message to a Telegram chat or channel.
 
 - `chatId`: Chat ID or username (e.g., @channelname or -1001234567890)
 - `text`: Message text
+- `topicId`: Optional topic ID for forum channels
 - `parseMode`: Optional formatting (HTML, Markdown, MarkdownV2)
 - `disableWebPagePreview`: Optional boolean
 - `disableNotification`: Optional boolean for silent messages
@@ -311,6 +312,8 @@ The system uses customizable templates for different message types:
 - **Contact**: Contact information
 - **Poll**: Poll questions and options
 
+All message templates include topic ID information for forum channels, allowing the AI to understand the context of which topic thread the message belongs to.
+
 ### Customization
 
 To customize the sampling behavior:
@@ -363,6 +366,19 @@ Send a message to a Telegram channel:
   "arguments": {
     "chatId": "@mychannel",
     "text": "Hello from the Telegram MCP Server!"
+  }
+}
+```
+
+Send a message to a specific topic in a forum channel:
+
+```json
+{
+  "tool_name": "SEND_MESSAGE",
+  "arguments": {
+    "chatId": "@mychannel",
+    "text": "Hello from the Telegram MCP Server!",
+    "topicId": 123
   }
 }
 ```

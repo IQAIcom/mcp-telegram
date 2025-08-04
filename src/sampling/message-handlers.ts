@@ -12,6 +12,7 @@ export function handleTextMessage(ctx: Context): MessageTemplateData | null {
 		chatId: ctx.chat.id,
 		isDM: ctx.chat.id === msg.from.id,
 		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
 		messageType: MessageType.TEXT,
 	};
 }
@@ -30,6 +31,7 @@ export function handlePhotoMessage(ctx: Context): MessageTemplateData | null {
 		chatId: ctx.chat.id,
 		isDM: ctx.chat.id === msg.from.id,
 		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
 		messageType: MessageType.PHOTO,
 	};
 }
@@ -51,6 +53,7 @@ export function handleDocumentMessage(
 		chatId: ctx.chat.id,
 		isDM: ctx.chat.id === msg.from.id,
 		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
 		messageType: MessageType.DOCUMENT,
 	};
 }
@@ -68,6 +71,7 @@ export function handleVoiceMessage(ctx: Context): MessageTemplateData | null {
 		chatId: ctx.chat.id,
 		isDM: ctx.chat.id === msg.from.id,
 		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
 		messageType: MessageType.VOICE,
 	};
 }
@@ -86,6 +90,7 @@ export function handleVideoMessage(ctx: Context): MessageTemplateData | null {
 		chatId: ctx.chat.id,
 		isDM: ctx.chat.id === msg.from.id,
 		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
 		messageType: MessageType.VIDEO,
 	};
 }
@@ -104,6 +109,7 @@ export function handleStickerMessage(ctx: Context): MessageTemplateData | null {
 		chatId: ctx.chat.id,
 		isDM: ctx.chat.id === msg.from.id,
 		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
 		messageType: MessageType.STICKER,
 	};
 }
@@ -124,6 +130,7 @@ export function handleLocationMessage(
 		chatId: ctx.chat.id,
 		isDM: ctx.chat.id === msg.from.id,
 		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
 		messageType: MessageType.LOCATION,
 	};
 }
@@ -142,6 +149,7 @@ export function handleContactMessage(ctx: Context): MessageTemplateData | null {
 		chatId: ctx.chat.id,
 		isDM: ctx.chat.id === msg.from.id,
 		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
 		messageType: MessageType.CONTACT,
 	};
 }
@@ -160,6 +168,7 @@ export function handlePollMessage(ctx: Context): MessageTemplateData | null {
 		chatId: ctx.chat.id,
 		isDM: ctx.chat.id === msg.from.id,
 		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
 		messageType: MessageType.POLL,
 	};
 }

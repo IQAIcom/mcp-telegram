@@ -30,9 +30,12 @@ export class TelegramService {
 	async sendMessage(
 		chatId: string | number,
 		text: string,
+		topicId?: number,
 	): Promise<MessageInfo> {
 		try {
-			const message = await this.bot.telegram.sendMessage(chatId, text);
+			const message = await this.bot.telegram.sendMessage(chatId, text, {
+				message_thread_id: topicId,
+			});
 
 			return {
 				messageId: message.message_id,
