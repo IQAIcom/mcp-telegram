@@ -1,5 +1,11 @@
 # @iqai/mcp-telegram
 
+## 0.1.4
+
+### Patch Changes
+
+- b50cd6a: added new user handler & updated message handlers to user reply_to on messages
+
 ## 0.1.3
 
 ### Patch Changes
