@@ -18,6 +18,7 @@ import {
 	handleLocationMessage,
 	handleContactMessage,
 	handlePollMessage,
+	handleNewMemberMessage,
 } from "./message-handlers.js";
 
 export class SamplingHandler {
@@ -127,6 +128,22 @@ export class SamplingHandler {
 		this.bot.on(message("poll"), async (ctx: Context) => {
 			await this.processMessage(ctx, MessageType.POLL, handlePollMessage);
 		});
+
+		// New members joined
+		this.bot.on("new_chat_members", async (ctx: Context) => {
+			// Directly handle without text validation
+			if (!this.validator.shouldProcessMessage(ctx, MessageType.NEW_MEMBER))
+				return;
+			if (
+				!this.rateLimiter.checkRateLimit(ctx.from?.id || 0, ctx.chat?.id || 0)
+			)
+				return;
+
+			const templateData = handleNewMemberMessage(ctx);
+			if (!templateData) return;
+
+			await this.handleMessage(ctx, MessageType.NEW_MEMBER, templateData);
+		});
 	}
 
 	private async handleMessage(
@@ -217,6 +234,7 @@ export class SamplingHandler {
 					request.chatId,
 					responseText,
 					request.templateData.topicId,
+					request.messageId,
 				);
 			}
 
@@ -231,6 +249,7 @@ export class SamplingHandler {
 					request.chatId,
 					"Sorry, I encountered an error while processing your request. Please try again.",
 					request.templateData.topicId,
+					request.messageId,
 				);
 			}
 		}

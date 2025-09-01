@@ -172,3 +172,31 @@ export function handlePollMessage(ctx: Context): MessageTemplateData | null {
 		messageType: MessageType.POLL,
 	};
 }
+
+export function handleNewMemberMessage(
+	ctx: Context,
+): MessageTemplateData | null {
+	const msg = ctx.message;
+	if (!msg || !("new_chat_members" in msg) || !ctx.chat) return null;
+
+	const newMembers = msg.new_chat_members;
+	if (!newMembers || newMembers.length === 0) return null;
+
+	const firstNewMember = newMembers[0];
+
+	return {
+		content: `[New member joined] ${firstNewMember.username || firstNewMember.first_name}`,
+		userId: msg.from?.id ?? firstNewMember.id,
+		chatId: ctx.chat.id,
+		isDM: false,
+		messageId: msg.message_id,
+		topicId: msg.message_thread_id,
+		messageType: MessageType.NEW_MEMBER,
+		newMemberId: firstNewMember.id,
+		newMemberUsername: firstNewMember.username,
+		newMemberFirstName: firstNewMember.first_name,
+		newMemberLastName: firstNewMember.last_name,
+		addedByUserId: msg.from?.id,
+		numberOfNewMembers: newMembers.length,
+	};
+}

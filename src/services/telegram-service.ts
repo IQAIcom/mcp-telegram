@@ -31,11 +31,33 @@ export class TelegramService {
 		chatId: string | number,
 		text: string,
 		topicId?: number,
+		replyToMessageId?: number,
 	): Promise<MessageInfo> {
 		try {
-			const message = await this.bot.telegram.sendMessage(chatId, text, {
-				message_thread_id: topicId,
-			});
+			const options: {
+				message_thread_id?: number;
+				reply_parameters?: {
+					message_id: number;
+					allow_sending_without_reply?: boolean;
+				};
+			} = {};
+
+			if (typeof topicId === "number") {
+				options.message_thread_id = topicId;
+			}
+
+			if (typeof replyToMessageId === "number") {
+				options.reply_parameters = {
+					message_id: replyToMessageId,
+					allow_sending_without_reply: true,
+				};
+			}
+
+			const message = await this.bot.telegram.sendMessage(
+				chatId,
+				text,
+				options,
+			);
 
 			return {
 				messageId: message.message_id,

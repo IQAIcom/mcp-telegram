@@ -10,6 +10,7 @@ export enum MessageType {
 	LOCATION = "location",
 	CONTACT = "contact",
 	POLL = "poll",
+	NEW_MEMBER = "new_member",
 }
 
 export enum TemplateType {
@@ -23,6 +24,7 @@ export enum TemplateType {
 	CONTACT = "contact",
 	POLL = "poll",
 	FALLBACK = "fallback",
+	NEW_MEMBER = "new_member",
 }
 
 export interface SamplingRequest {
@@ -67,6 +69,12 @@ export interface MessageTemplateData {
 	phoneNumber?: string;
 	pollQuestion?: string;
 	pollOptions?: string;
+	newMemberId?: number;
+	newMemberUsername?: string;
+	newMemberFirstName?: string;
+	newMemberLastName?: string;
+	addedByUserId?: number;
+	numberOfNewMembers?: number;
 	[key: string]: string | number | boolean | undefined;
 }
 

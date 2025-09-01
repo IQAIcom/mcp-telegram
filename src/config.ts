@@ -84,6 +84,7 @@ const envSchema = z.object({
 	SAMPLING_ENABLE_LOCATION: z.coerce.boolean().default(false),
 	SAMPLING_ENABLE_CONTACT: z.coerce.boolean().default(false),
 	SAMPLING_ENABLE_POLL: z.coerce.boolean().default(false),
+	SAMPLING_ENABLE_NEW_MEMBER: z.coerce.boolean().default(true),
 
 	// Response behavior
 	SAMPLING_MAX_TOKENS: z.coerce.number().default(1000),
@@ -133,6 +134,7 @@ export const samplingConfig = {
 		[MessageType.LOCATION]: env.SAMPLING_ENABLE_LOCATION,
 		[MessageType.CONTACT]: env.SAMPLING_ENABLE_CONTACT,
 		[MessageType.POLL]: env.SAMPLING_ENABLE_POLL,
+		[MessageType.NEW_MEMBER]: env.SAMPLING_ENABLE_NEW_MEMBER,
 	},
 
 	// Response behavior
@@ -249,5 +251,15 @@ message_id: {messageId}
 topic_id: {topicId}
 message_type: {messageType}
 content: {content}`,
+
+		[TemplateType.NEW_MEMBER]: `NEW MEMBER JOINED:
+chat_id: {chatId}
+message_id: {messageId}
+number_of_new_members: {numberOfNewMembers}
+new_member_id: {newMemberId}
+new_member_username: {newMemberUsername}
+new_member_first_name: {newMemberFirstName}
+new_member_last_name: {newMemberLastName}
+added_by_user_id: {addedByUserId}`,
 	},
 } as const;

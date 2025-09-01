@@ -66,8 +66,12 @@ export class MessageValidator {
 		// Check if it's a DM
 		const isDM = chatId === userId;
 
-		// For groups: check mention requirement
+		// For groups: check mention requirement except for system events like NEW_MEMBER
 		if (!isDM && samplingConfig.mentionOnly) {
+			// Allow NEW_MEMBER without mention
+			if ((messageType as string) === "new_member") {
+				return true;
+			}
 			if ("text" in msg && msg.text) {
 				return this.isMentioned(msg.text, msg.entities);
 			}
