@@ -1,0 +1,63 @@
+# Progress Log - mcp-telegram
+
+## 2026-01-28: Standardize README and Add MCP Tool Auto-Sync Workflow
+
+### Task
+Update mcp-telegram: cd into mcp-telegram, create branch feat/standardize-readme, update README structure, copy workflows from mcp-opinion, commit, push, create PR, merge
+
+### Changes Made
+
+1. **README Structure Standardization**
+   - Restructured README.md to match standardized format from mcp-opinion
+   - Added npm version badge and MIT license badge
+   - Added "Overview" section with project description
+   - Reorganized "Features" section with Core Tools and AI Sampling subsections
+   - Added "Installation" section with npx and build-from-source options
+   - Added "Running with an MCP Client" section with minimal and advanced config examples
+   - Added "Configuration (Environment Variables)" section organized into tables:
+     - Required variables
+     - Sampling configuration
+     - Access control
+     - Rate limiting
+     - Message type support
+     - Content filtering
+   - Added "Usage Examples" section
+   - Added "MCP Tools" section with AUTO-GENERATED markers for tool documentation
+   - Added "Development" section with build, watch, lint/format commands
+   - Added "Project Structure" section
+   - Added "Resources" and "Disclaimer" sections
+
+2. **Workflow Updates**
+   - Updated `.github/workflows/push.yml` to manual trigger template (workflow_dispatch)
+   - Updated `.github/workflows/release.yml` to manual trigger template (workflow_dispatch)
+   - Added `.github/workflows/sync-tools.yml` to auto-sync MCP tool documentation on push to main
+
+3. **GitHub Action for Tool Documentation**
+   - Created `.github/actions/generate-mcp-tools/generate-tools.mjs`
+   - Generates markdown table documentation from tool Zod schemas
+   - Updates README.md between AUTO-GENERATED markers
+
+4. **Testing**
+   - Added vitest for testing
+   - Created `tests/tools.test.ts` with 25 comprehensive tests
+   - Tests validate all 5 MCP tools' parameter schemas:
+     - SEND_MESSAGE
+     - GET_CHANNEL_INFO
+     - FORWARD_MESSAGE
+     - PIN_MESSAGE
+     - GET_CHANNEL_MEMBERS
+   - Added `vitest.config.ts` configuration
+
+5. **Dependencies**
+   - Added `vitest: ^4.0.18` to devDependencies
+   - Added `zod-to-json-schema: ^3.25.1` to devDependencies
+   - Added `test` and `test:watch` scripts to package.json
+
+### Verification
+- Build passes: `pnpm run build`
+- All tests pass: `pnpm run test` (25 tests)
+- Linting passes: `pnpm run lint`
+
+### PR
+- PR #14: https://github.com/IQAIcom/mcp-telegram/pull/14
+- Status: Merged
