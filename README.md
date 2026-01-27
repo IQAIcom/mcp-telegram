@@ -165,8 +165,8 @@ Forward a message from one chat to another
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `fromChatId` | string, number | Yes | Source chat ID or username |
-| `toChatId` | string, number | Yes | Destination chat ID or username |
+| `fromChatId` | string | number | Yes | Source chat ID or username |
+| `toChatId` | string | number | Yes | Destination chat ID or username |
 | `messageId` | number | Yes | ID of the message to forward |
 | `disableNotification` | boolean |  | Forward message silently |
 
@@ -175,14 +175,14 @@ Get information about a Telegram channel or chat
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `channelId` | string, number | Yes | The channel ID or username (e.g., @channelname or -1001234567890) |
+| `channelId` | string | number | Yes | The channel ID or username (e.g., @channelname or -1001234567890) |
 
 ### `GET_CHANNEL_MEMBERS`
 Get a list of channel administrators and members
 
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
-| `channelId` | string, number | Yes |  | The channel ID or username |
+| `channelId` | string | number | Yes |  | The channel ID or username |
 | `limit` | number |  | 10 | Maximum number of members to retrieve (1-50) |
 
 ### `PIN_MESSAGE`
@@ -190,7 +190,7 @@ Pin a message in a Telegram chat or channel
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `chatId` | string, number | Yes | The chat ID or channel username |
+| `chatId` | string | number | Yes | The chat ID or channel username |
 | `messageId` | number | Yes | ID of the message to pin |
 | `disableNotification` | boolean |  | Pin message silently |
 
@@ -199,7 +199,7 @@ Send a message to a Telegram chat or channel
 
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
-| `chatId` | string, number | Yes | The chat ID or channel username (e.g., @channelname or -1001234567890) |
+| `chatId` | string | number | Yes | The chat ID or channel username (e.g., @channelname or -1001234567890) |
 | `text` | string | Yes | The message text to send |
 | `topicId` | number |  | The topic ID for forum channels (optional) |
 
