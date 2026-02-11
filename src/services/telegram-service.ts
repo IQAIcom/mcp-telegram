@@ -34,7 +34,7 @@ export class TelegramService {
 		replyToMessageId?: number,
 	): Promise<MessageInfo> {
 		try {
-			const options: {
+			const baseOptions: {
 				message_thread_id?: number;
 				reply_parameters?: {
 					message_id: number;
@@ -43,28 +43,42 @@ export class TelegramService {
 			} = {};
 
 			if (typeof topicId === "number") {
-				options.message_thread_id = topicId;
+				baseOptions.message_thread_id = topicId;
 			}
 
 			if (typeof replyToMessageId === "number") {
-				options.reply_parameters = {
+				baseOptions.reply_parameters = {
 					message_id: replyToMessageId,
 					allow_sending_without_reply: true,
 				};
 			}
 
-			const message = await this.bot.telegram.sendMessage(
-				chatId,
-				text,
-				options,
-			);
+			try {
+				const message = await this.bot.telegram.sendMessage(chatId, text, {
+					...baseOptions,
+					parse_mode: "Markdown",
+				});
 
-			return {
-				messageId: message.message_id,
-				chatId: message.chat.id,
-				text: message.text,
-				date: message.date,
-			};
+				return {
+					messageId: message.message_id,
+					chatId: message.chat.id,
+					text: message.text,
+					date: message.date,
+				};
+			} catch {
+				const message = await this.bot.telegram.sendMessage(
+					chatId,
+					text,
+					baseOptions,
+				);
+
+				return {
+					messageId: message.message_id,
+					chatId: message.chat.id,
+					text: message.text,
+					date: message.date,
+				};
+			}
 		} catch (error) {
 			throw new Error(
 				`Failed to send message: ${error instanceof Error ? error.message : "Unknown error"}`,
