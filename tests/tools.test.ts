@@ -52,6 +52,24 @@ describe("MCP Tools", () => {
 			});
 			expect(result.success).toBe(true);
 		});
+
+		it("should accept optional parseMode", () => {
+			const result = sendMessageTool.parameters.safeParse({
+				chatId: "@testchannel",
+				text: "Hello",
+				parseMode: "HTML",
+			});
+			expect(result.success).toBe(true);
+		});
+
+		it("should accept parseMode Text for plain messages", () => {
+			const result = sendMessageTool.parameters.safeParse({
+				chatId: "@testchannel",
+				text: "Hello",
+				parseMode: "Text",
+			});
+			expect(result.success).toBe(true);
+		});
 	});
 
 	describe("getChannelInfoTool", () => {

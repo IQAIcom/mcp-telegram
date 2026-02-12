@@ -16,6 +16,13 @@ export interface MessageInfo {
 	date: number;
 }
 
+export type TelegramParseMode = "Markdown" | "MarkdownV2" | "HTML";
+
+export interface SendMessageOptions {
+	parseMode?: TelegramParseMode | null;
+	fallbackToPlainText?: boolean;
+}
+
 export class TelegramService {
 	private bot: Telegraf;
 
@@ -32,9 +39,10 @@ export class TelegramService {
 		text: string,
 		topicId?: number,
 		replyToMessageId?: number,
+		sendOptions?: SendMessageOptions,
 	): Promise<MessageInfo> {
 		try {
-			const options: {
+			const baseOptions: {
 				message_thread_id?: number;
 				reply_parameters?: {
 					message_id: number;
@@ -43,28 +51,66 @@ export class TelegramService {
 			} = {};
 
 			if (typeof topicId === "number") {
-				options.message_thread_id = topicId;
+				baseOptions.message_thread_id = topicId;
 			}
 
 			if (typeof replyToMessageId === "number") {
-				options.reply_parameters = {
+				baseOptions.reply_parameters = {
 					message_id: replyToMessageId,
 					allow_sending_without_reply: true,
 				};
 			}
 
-			const message = await this.bot.telegram.sendMessage(
-				chatId,
-				text,
-				options,
-			);
+			const parseMode =
+				sendOptions?.parseMode === undefined ? "Markdown" : sendOptions.parseMode;
+			const shouldFallback = sendOptions?.fallbackToPlainText ?? true;
 
-			return {
-				messageId: message.message_id,
-				chatId: message.chat.id,
-				text: message.text,
-				date: message.date,
-			};
+			// null parseMode = plain text (no formatting), used when "Text" is selected in SEND_MESSAGE
+			if (!parseMode) {
+				const message = await this.bot.telegram.sendMessage(
+					chatId,
+					text,
+					baseOptions,
+				);
+
+				return {
+					messageId: message.message_id,
+					chatId: message.chat.id,
+					text: message.text,
+					date: message.date,
+				};
+			}
+
+			try {
+				const message = await this.bot.telegram.sendMessage(chatId, text, {
+					...baseOptions,
+					parse_mode: parseMode,
+				});
+
+				return {
+					messageId: message.message_id,
+					chatId: message.chat.id,
+					text: message.text,
+					date: message.date,
+				};
+			} catch (error) {
+				if (!shouldFallback || !isParseModeError(error)) {
+					throw error;
+				}
+
+				const message = await this.bot.telegram.sendMessage(
+					chatId,
+					text,
+					baseOptions,
+				);
+
+				return {
+					messageId: message.message_id,
+					chatId: message.chat.id,
+					text: message.text,
+					date: message.date,
+				};
+			}
 		} catch (error) {
 			throw new Error(
 				`Failed to send message: ${error instanceof Error ? error.message : "Unknown error"}`,
@@ -160,4 +206,17 @@ export class TelegramService {
 			);
 		}
 	}
+}
+
+function isParseModeError(error: unknown): boolean {
+	if (!(error instanceof Error)) {
+		return false;
+	}
+
+	const normalizedMessage = error.message.toLowerCase();
+	return (
+		normalizedMessage.includes("can't parse entities") ||
+		normalizedMessage.includes("cannot parse entities") ||
+		normalizedMessage.includes("parse entities")
+	);
 }
