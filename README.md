@@ -202,7 +202,7 @@ Send a message to a Telegram chat or channel
 | `chatId` | string | number | Yes | The chat ID or channel username (e.g., @channelname or -1001234567890) |
 | `text` | string | Yes | The message text to send |
 | `topicId` | number |  | The topic ID for forum channels (optional) |
-| `parseMode` | string |  | Optional parse mode: `Markdown`, `MarkdownV2`, `HTML`, or `Text` (plain text) |
+| `parseMode` | string |  | Parse mode for Telegram rendering. Use Text for plain text without formatting. |
 
 <!-- AUTO-GENERATED TOOLS END -->
 
