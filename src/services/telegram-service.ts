@@ -65,6 +65,7 @@ export class TelegramService {
 				sendOptions?.parseMode === undefined ? "Markdown" : sendOptions.parseMode;
 			const shouldFallback = sendOptions?.fallbackToPlainText ?? true;
 
+			// null parseMode = plain text (no formatting), used when "Text" is selected in SEND_MESSAGE
 			if (!parseMode) {
 				const message = await this.bot.telegram.sendMessage(
 					chatId,

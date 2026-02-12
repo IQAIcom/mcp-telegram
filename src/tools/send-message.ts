@@ -37,6 +37,7 @@ export const sendMessageTool = {
 				params.topicId,
 				undefined,
 				{
+					// "Text" is a synthetic value meaning plain text — map to null (no parse_mode sent to Telegram)
 					parseMode: params.parseMode === "Text" ? null : params.parseMode,
 				},
 			);

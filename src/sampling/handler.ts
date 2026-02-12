@@ -235,6 +235,7 @@ export class SamplingHandler {
 					responseText,
 					request.templateData.topicId,
 					request.messageId,
+					{ parseMode: "Markdown", fallbackToPlainText: true },
 				);
 			}
 
