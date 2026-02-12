@@ -13,6 +13,12 @@ const sendMessageParams = z.object({
 		.number()
 		.optional()
 		.describe("The topic ID for forum channels (optional)"),
+	parseMode: z
+		.enum(["Markdown", "MarkdownV2", "HTML", "Text"])
+		.optional()
+		.describe(
+			"Parse mode for Telegram rendering. Use Text for plain text without formatting.",
+		),
 });
 
 type SendMessageParams = z.infer<typeof sendMessageParams>;
@@ -29,6 +35,10 @@ export const sendMessageTool = {
 				params.chatId,
 				params.text,
 				params.topicId,
+				undefined,
+				{
+					parseMode: params.parseMode === "Text" ? null : params.parseMode,
+				},
 			);
 
 			return dedent`
