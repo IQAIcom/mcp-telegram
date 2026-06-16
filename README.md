@@ -41,7 +41,7 @@ npx @iqai/mcp-telegram
 ### Build from Source
 
 ```bash
-git clone https://github.com/IQAIcom/mcp-telegram.git
+git clone https://github.com/IQOfficial/mcp-telegram.git
 cd mcp-telegram
 pnpm install
 pnpm run build
